@@ -1,0 +1,27 @@
+{
+    "name": "Aris Ridwan",
+    "description": "Rest API, courier",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "aris",
+            "email": "aris.ridwan@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "*",
+        "slim/extras": "*",
+        "slim/middleware": "*",
+        "monolog/monolog": "*",
+        "j4mie/paris": "*",
+        "flynsarmy/slim-monolog": "*"
+    },
+    "archive": {
+        "exclude": ["vendor", ".DS_Store", "*.log"]
+    },
+    "autoload": {
+        "psr-0": {
+            "API": "lib/"
+        }
+    }
+}
