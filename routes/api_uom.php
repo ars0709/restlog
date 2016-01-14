@@ -9,6 +9,7 @@ ini_set('display_errors','on');
  * method - POST
  * params - uom_
  */
+
 $app->post('/uom', 'authenticate',function() use ($app) {
 	// check for required params
 	$requiredfields = array('uom_id','uom_desc','company_acc');
@@ -41,7 +42,65 @@ $app->post('/uom', 'authenticate',function() use ($app) {
 			response('Insert UOM Success','UOM', $su,false);
 		}
 	}				
-
-	
 	return true;
 });
+
+$app->put('/uom', 'authenticate',function() use ($app) {
+	// check for required params
+	$requiredfields = array('uom_id','uom_desc','company_acc');
+	$req = $_REQUEST;
+	if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+        $app = \Slim\Slim::getInstance();
+        parse_str($app->request()->getBody(), $req);
+    }
+  	// validate required fields
+	if(!RequiredFields($req, $requiredfields)){
+		return false;
+	}
+
+	$data = array('il_uom_id' =>$req['uom_id'] ,
+		'il_uom_desc' =>$req['uom_desc'] ,
+		'il_company_acc' =>$req['company_acc'] 
+	 );
+
+	
+		$db=new dbUom();
+		$res=$db->updateUOM($data);
+		if ($res==0){
+			response('Failed to Update  UOM Data','UOM', $fa,true);
+		}elseif ($res==1) {
+			response('Update  UOM Success','UOM', $su,false);
+		}
+		
+	return true;
+});
+
+$app->delete('/uom', 'authenticate',function() use ($app) {
+	// check for required params
+	$requiredfields = array('uom_id','uom_desc','company_acc');
+	$req = $_REQUEST;
+	if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+        $app = \Slim\Slim::getInstance();
+        parse_str($app->request()->getBody(), $req);
+    }
+  	// validate required fields
+	if(!RequiredFields($req, $requiredfields)){
+		return false;
+	}
+
+	$data = array('il_uom_id' =>$req['uom_id'] ,
+		'il_uom_desc' =>$req['uom_desc'] ,
+		'il_company_acc' =>$req['company_acc'] 
+	 );	
+		$db=new dbUom();
+		$res=$db->deleteUOM($data);
+		if ($res==0){
+			response('Failed to Update  UOM Data','UOM', $fa,true);
+		}elseif ($res==1) {
+			response('Update  UOM Success','UOM', $su,false);
+		}
+	return true;
+});
+
+
+

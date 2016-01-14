@@ -75,20 +75,10 @@ class dbUser {
     } 
 
     public function getUserByEmail($email){
-       $stmt = $this->conn->prepare("SELECT name, email, api_key, status, created_at FROM il_user WHERE email = ?");
+       $stmt = $this->conn->prepare("SELECT name, email, api_key, status, created_at,il_company_acc FROM il_user WHERE email = ?");
         $stmt->bind_param("s", $email);
         if ($stmt->execute()) {
-             $rslt = $stmt->get_result()->fetch_assoc();
-            // $stmt->bind_result($name, $email, $api_key, $status, $created_at);
-            // $stmt->bind_result();
-            // $stmt->fetch();
-             // $rslt=$stmt;   
-            // $user = array();
-            // $user["name"] = $name;
-            // $user["email"] = $email;
-            // $user["api_key"] = $api_key;
-            // $user["status"] = $status;
-            // $user["created_at"] = $created_at;
+            $rslt = $stmt->get_result()->fetch_assoc();
             $stmt->close();
             return $rslt;
         } else {
@@ -96,7 +86,6 @@ class dbUser {
         }
 
     } 
-
     private function isUserExists($email) {
         $stmt = $this->conn->prepare("SELECT id from il_user WHERE email = ?");
         $stmt->bind_param("s", $email);
@@ -109,7 +98,6 @@ class dbUser {
 	private function generateApiKey() {
         return md5(uniqid(rand(), true));
     }
-
     public function isValidApiKey($api_key) {
         $stmt = $this->conn->prepare("SELECT id from il_user WHERE api_key = ?");
         $stmt->bind_param("s", $api_key);
